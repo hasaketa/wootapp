@@ -1,8 +1,7 @@
 import WootPluginPlugin from './plugin';
 import WootPluginActions from 'actions';
-import ApplyWootActions from 'actions';
 import WootPluginStore from 'stores';
-import ApplyWootStore from 'stores';
+
 
 
 /**
@@ -30,8 +29,6 @@ function activate(appRegistry) {
   appRegistry.registerRole('Instance.Tab', ROLE);
   appRegistry.registerAction('WootPlugin.Actions', WootPluginActions);
   appRegistry.registerStore('WootPlugin.Store', WootPluginStore);
-  appRegistry.registerAction('WootPlugin.Actions',ApplyWootActions);
-  appRegistry.registerStore('WootPlugin.Store',ApplyWootStore);
 }
 
 /**

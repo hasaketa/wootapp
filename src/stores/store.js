@@ -1,6 +1,7 @@
 import Reflux from 'reflux';
 import StateMixin from 'reflux-state-mixin';
 import WootPluginActions from 'actions';
+import moment from 'moment';
 
 
 
@@ -27,7 +28,9 @@ const initialState = {
   sitchconnectionerror: true,
   wootproject: ['mtools','skunkworks','Colonizer'],
   selectedproject: 'skunkworks',
-
+  selectedproject_start_date: moment(),
+  selectedproject_end_date: moment(),
+  status_string: 'Initialsed Woot APP Plugin',
 };
 
 /**
@@ -71,8 +74,6 @@ const WootPluginStore = Reflux.createStore({
     //
      appRegistry.on('application-intialized', (version) => {
        // Version is string in semver format, ex: "1.10.0"
-       console.log('WOOTSTORE activated lets regist applywoot store');
-
      });
 
     //
@@ -134,8 +135,9 @@ const WootPluginStore = Reflux.createStore({
     //Do Something to Login to WOOT. Login code should return status: 'enabled' on login
     //Fetch client data and update the state
     console.log("loginToWoot: Starting Login")
+
     client.login().then(() =>
-        db.collection(WOOT_COLLECTION).updateOne({owner_id: client.authedId()}, {$set:{number:42}}, {upsert:true})
+        db.collection(WOOT_COLLECTION).updateMany({owner_id: client.authedId()}, {$set:{current_woot: false }}, {upsert:true})
     ).then(() =>
        db.collection(WOOT_COLLECTION).find({owner_id: client.authedId()})
     ).then(docs => {
@@ -147,14 +149,16 @@ const WootPluginStore = Reflux.createStore({
           username: userid,
           wootproject: ['mtools','skunkworks','Colonizer'],
           selectedproject: 'skunkworks',
-          sitchconnectionerror: false
+          sitchconnectionerror: false,
+          status_string: 'Login Successful and connected to Stitch Backend'
        });
      }).catch(err => {
     console.error('loginToWoot: StitchError',err)
     this.setState({
       status: 'disabled',
       username: null,
-      sitchconnectionerror: true
+      sitchconnectionerror: true,
+      status_string: 'Error connecting to Stitch backend, login not Successful'
      });
    });
 },
@@ -163,21 +167,28 @@ const WootPluginStore = Reflux.createStore({
     this.setState({
       status: 'disabled',
       username: null,
-      selectedproject: 'projectfromApplyWoot'
+      selectedproject: 'projectfromApplyWoot',
+      status_string: 'Loggin out BBye!'
     });
   },
 
   SubmitWootForm() {
-    console.log('FormSubmitted: Project selected is ', selection);
-    db.collection(WOOT_COLLECTION).insert([{ selectedproject: selection, owner_id: client.authedId()}]
-  ).then(() => {
-      this.setState({
-        status: 'disabled',
-        username: null,
-        sitchconnectionerror: false
-      });
-    });
+    console.log('FormSubmitted: Project selected is ', this.state.selectedproject);
+    if (this.state.selectedproject_start_date && this.state.selectedproject_end_date) {
+        db.collection(WOOT_COLLECTION).insert([{ owner_id: client.authedId(), selectedproject: this.state.selectedproject, current_woot: true, start_date: this.state.selectedproject_start_date.format("YYYY-MM-DD"), end_date: this.state.selectedproject_end_date.format("YYYY-MM-DD") }]
+      ).then(() => {
+    console.log('FormSubmitted: Request saved to Stitch database');
 
+    this.setState({
+         status_string: 'FormSubmitted: WOOT Request saved to Stitch database'
+       });
+     });
+  } else {
+    console.log("Start or End date is empty");
+    this.setState({
+         status_string: 'FormSubmission Error: Start or End date is empty'
+       });
+  }
   },
 
   onSelectProject(selection) {
@@ -186,6 +197,22 @@ const WootPluginStore = Reflux.createStore({
       selectedproject: selection
     });
   },
+
+  onStartDateEntered(selection) {
+    console.log('storeonSelectProject: Project selected Start Date entered', selection);
+    this.setState({
+      selectedproject_start_date: selection
+    });
+  },
+
+
+  onEndDateEntered(selection) {
+    console.log('storeonSelectProject: Project selected End Date entered', selection);
+    this.setState({
+      selectedproject_end_date: selection
+    });
+  },
+
 
 
 

@@ -118,6 +118,7 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
-    "mongodb-stitch": "^1.1.8"
+    "mongodb-stitch": "^1.1.8",
+    "react-datepicker": "^0.58.0"
   }
 }

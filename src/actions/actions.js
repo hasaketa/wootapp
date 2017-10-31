@@ -7,8 +7,10 @@ const WootPluginActions = Reflux.createActions([
   'toggleStatus',
   'loginToWoot',
   'logoutWoot',
-  'onSubmitForm',
-  'onSelectProject'
+  'SubmitWootForm',
+  'onSelectProject',
+  'onStartDateEntered',
+  'onEndDateEntered',
 ]);
 
 export default WootPluginActions;

@@ -1,5 +1,5 @@
 import WootPluginActions from './actions';
-import ApplyWootActions from './applywootactions';
+//import ApplyWootActions from './applywootactions';
 
 export default WootPluginActions ;
-export { WootPluginActions, ApplyWootActions };
+export { WootPluginActions };
