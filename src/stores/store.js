@@ -153,12 +153,12 @@ const WootPluginStore = Reflux.createStore({
           status_string: 'Login Successful and connected to Stitch Backend'
        });
      }).catch(err => {
-    console.error('loginToWoot: StitchError',err)
+    console.error('Unknown error in loginToWoot: ',err)
     this.setState({
       status: 'disabled',
       username: null,
       sitchconnectionerror: true,
-      status_string: 'Error connecting to Stitch backend, login not Successful'
+      status_string: 'Internal error login not successful'
      });
    });
 },
@@ -167,8 +167,7 @@ const WootPluginStore = Reflux.createStore({
     this.setState({
       status: 'disabled',
       username: null,
-      selectedproject: 'projectfromApplyWoot',
-      status_string: 'Loggin out BBye!'
+      status_string: 'You are now Logged out!'
     });
   },
 

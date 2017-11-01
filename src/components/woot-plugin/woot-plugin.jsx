@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import LoginButton from 'components/login-button';
+import LogoutButton from 'components/logout-button';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -32,6 +33,7 @@ class WootPlugin extends Component {
   }
 
   logOut = () => {
+    console.log("LOGOUT BUTTON CLICKED IN WOOT PLUGIN");
     this.props.actions.logoutWoot();
   }
 
@@ -77,30 +79,38 @@ class WootPlugin extends Component {
 
       console.log(stitchconnecterrorhtml);
       return (
-
         <div className={classnames(styles.root)}>
-        <p>Hello your username is {this.props.username}</p>
-        <form onSubmit={this.SubmitWootForm}>
-        <label>
-          Pick the Project to Work on WOOT:
-          <select value={this.props.selectedproject} onChange={this.onSelectProject}>
-            {options}
-          </select>
-        </label>
-        <label>
-          Start Date:
-          <DatePicker selected={this.props.selectedproject_start_date} onChange={this.onStartDateEntered} />
-        </label>
-        <label>
-          End Date:
-          <DatePicker selected={this.props.selectedproject_end_date} onChange={this.onEndDateEntered} />
-        </label>
-          <button>
-              Apply WOOT
-          </button>
-        </form>
-          <div><p>Status: {this.props.status_string}</p></div>
-        </div>
+        <LogoutButton onClick={this.logOut} />
+        <nav className={classnames(styles.nav)}>
+           <a href="#ApplyWoot">ApplyWoot</a>
+           <a href="#ViewHistory">ViewHistory</a>
+           <a href="#ApproveWoot">ApproveWoot</a>
+        </nav>
+        <article id="ApplyWoot" className={classnames(styles.article)}>
+        <a href="#" data-button="close">x</a>
+        <img src="./img/applywoot.jpeg" alt="WOOT" />
+           <form onSubmit={this.SubmitWootForm}>
+             <label>
+                Pick the Project to Work on WOOT:
+                <select value={this.props.selectedproject} onChange={this.onSelectProject}>
+                  {options}
+                </select>
+             </label>
+             <label>
+                Start Date:
+                <DatePicker selected={this.props.selectedproject_start_date} onChange={this.onStartDateEntered} />
+             </label>
+             <label>
+                End Date:
+                <DatePicker selected={this.props.selectedproject_end_date} onChange={this.onEndDateEntered} />
+             </label>
+             <button>
+               Apply WOOT
+             </button>
+            </form>
+        </article>
+        <div className={classnames(styles.footer)}><p>Status: {this.props.status_string}</p></div>
+      </div>
       );
     }
       else {
@@ -108,10 +118,9 @@ class WootPlugin extends Component {
           <div className={classnames(styles.root)}>
             <h2 className={classnames(styles.title)}>WootPlugin</h2>
               <p>Login to Apply for WOOT</p>
-              <p>Currently you are not Logged in</p>
               {(this.props.sitchconnectionerror) ? <div>Not Connected to STITCH</div> : <div>Connected to Stitch Backend. Good to Login</div>}
               <LoginButton onClick={this.LoginCLick} />
-              <div><p>Status: {this.props.status_string}</p></div>
+              <div className={classnames(styles.footer)}><p>Status: {this.props.status_string}</p></div>
           </div>
           );
     }

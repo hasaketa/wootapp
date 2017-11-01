@@ -1,17 +1,124 @@
 @import "~less/compass/_theme.less";
 
-@background-color: #0e83cd;
+@background-color: rgb(21,34,47);
 @text-color: #1A237E;
 
 .root {
-	background: #0e83cd;
-	color: @text-color;
+	display: block;
+	background: @background-color;
 	font-weight: bold;
 	height: 100vh;
 	padding: 2.4rem;
-
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
+.nav {
+	display: block;
+	padding: 1em;
+/*
+	border: 3px solid #000;
+	margin: 2em 0 2em 0;
+*/
+}
+
+.nav a {
+	display: inline-block;
+	padding: 1em;
+	margin-left: 1em;
+	font-size: 1.5em;
+	border: 3px solid #fff;
+	background: #333;
+	color: #fff;
+	cursor: pointer;
+}
+
+.nav a:hover {
+	border-color: #333;
+	background: #fff;
+	color: #333;
+}
+
+.article {
+	display: block;
+	position: fixed;
+	z-index: 9999;
+	left: 25%;
+	top: 100%;
+	width: 40%;
+	height: 50%;
+	padding: 2em 5% 0 5%;
+	border-radius: 1em;
+	background: #000;
+	color: #fff;
+	overflow: auto;
+}
+
+.article {
+	padding-bottom: 1em;
+	-webkit-transition: all 2s;
+	transition: all 2s;
+}
+
+.article [data-button="close"]{
+	display: block;
+	float: right;
+	background: #c00;
+	color: #fff;
+	border: 3px solid #fff;
+	border-radius: 0.2em;
+	padding: 0.2em;
+	text-decoration: none;
+}
+
+.article [data-button="close"]:hover{
+	background: #fff;
+	color: #c00;
+	border: 3px solid #c00;
+}
+:target {
+	visibility: visible !important;
+	left: 25% !important;
+	top: 25% !important;
+	width: 40% !important;
+	height: 50% !important;
+	opacity: 1 !important;
+}
+
+[data-transition="zoom"]{
+	visibility: hidden;
+	left: 50%;
+	top: 50%;
+	width: 0;
+	height: 0;
+	opacity: 0;
+}
+
+[data-transition="left"]{
+	left: -100%;
+	top: 25%;
+}
+
+.img {
+	display: block;
+	float: left;
+	height: 100%;
+}
+
+.article img {
+	margin-right: 1em;
+}
+.article img{
+	display: block;
+	float: left;
+	height: 100%;
+}
 .title {
 	margin-top: 0;
+}
+
+.footer {
+	position: fixed;
+  Width: 100%;
+  bottom: 0;
+	font-family: "Trebuchet MS", Helvetica, cour;
 }
